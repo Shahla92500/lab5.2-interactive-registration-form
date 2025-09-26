@@ -15,17 +15,25 @@ const msgErrCfmPW = document.getElementById("confirmPasswordError");
 // On page load, check if a username is saved in localStorage. If so, pre-fill the username field.
 document.addEventListener('DOMContentLoaded', () => {
 
-  const userSaved = localStorage.getItem('username');
+  const userSaved = localStorage.getItem('userName');
+  const emailSaved = localStorage.getItem('userEmail')
   if (userSaved) { 
     userName.value = userSaved; 
-   }
+    console.log(`username from storage :  , ${userName.value}`);
+  }
+  if (emailSaved){
+    userEmail.value = emailSaved;
+    console.log(`emal from storage :  , ${userEmail.value}`);
+
+  }
+
 });
 
 regForm.addEventListener("submit", (e)=> {
     e.preventDefault();
 
     console.log(`username: ${userName.value}, Password: ${userPW.value}, Email: ${userEmail.value}`);
-    localStorage.setItem("userName ", userName.value);
+    localStorage.setItem("userName", userName.value);
     localStorage.setItem("password", userPW.value);
     localStorage.setItem("passwordConfirmation", userCfmPW.value);
     localStorage.setItem("userEmail",userEmail.value);
@@ -34,7 +42,6 @@ regForm.addEventListener("submit", (e)=> {
     checkEmail();
     checkPassword();
 
-    console.log(`Username, ${userN}, length: ${userN.length}`); 
 });
 // check UserName (un= User Name)
 function checkUserName(){
@@ -62,7 +69,7 @@ function checkEmail(){
 // check password matching (pw=userPW & pwc = msgErrCfmPW)
 function checkPassword() {
      userPW.setCustomValidity('');
-     console.log(userPW.valueMissinga);
+
     if (userPW.validity.valueMissing) {    
         userPW.setCustomValidity('Password is required.');
     } else if (userPW.validity.tooShort) {
@@ -71,18 +78,18 @@ function checkPassword() {
         userPW.setCustomValidity('Use upper, lower, number, and symbol.');
     }
     msgErrPW.textContent = userPW.validationMessage;
-    console.log("error msg,",  msgErrPW.textContent);
+    // console.log("error msg,",  msgErrPW.textContent);
     userCfmPW.setCustomValidity('');
-    console.log(`pw, ${userPW.value}, pwc: ${userCfmPW.value}`);
+    // console.log(`pw, ${userPW.value}, pwc: ${userCfmPW.value}`);
     if (userPW.value && userCfmPW.value && userPW.value !== userCfmPW.value){
         userCfmPW.setCustomValidity('Password does not match to confirmation password');
-    console.log(`not match, ${userPW.value}, pwc: ${userCfmPW.value}`);
+    // console.log(`not match, ${userPW.value}, pwc: ${userCfmPW.value}`);
     } else {
-        console.log(`matches: pw, ${userPW.value}, pwc: ${userCfmPW.value}`);
+        // console.log(`matches: pw, ${userPW.value}, pwc: ${userCfmPW.value}`);
         userCfmPW.setCustomValidity('');
         msgErrCfmPW.textContent = '';
     }
 
     msgErrCfmPW.textContent = userCfmPW.validationMessage;
-    console.log("error msg,",  msgErrCfmPW.textContent);
+    // console.log("error msg,",  msgErrCfmPW.textContent);
 }
