@@ -19,12 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailSaved = localStorage.getItem('userEmail')
   if (userSaved) { 
     userName.value = userSaved; 
-    console.log(`username from storage :  , ${userName.value}`);
   }
   if (emailSaved){
     userEmail.value = emailSaved;
-    console.log(`emal from storage :  , ${userEmail.value}`);
-
+  
   }
 
 });
@@ -38,17 +36,18 @@ regForm.addEventListener("submit", (e)=> {
     localStorage.setItem("passwordConfirmation", userCfmPW.value);
     localStorage.setItem("userEmail",userEmail.value);
 
-    checkUserName();
-    checkEmail();
-    checkPassword();
-
 });
+// control realtime errors when typing the data in the fields
+userName.addEventListener('input', checkUserName);
+userEmail.addEventListener('input', checkEmail);
+userPW.addEventListener('input', checkPassword);
+userCfmPW.addEventListener('input', checkPassword);
+
 // check UserName (un= User Name)
 function checkUserName(){
     userName.setCustomValidity("");
     if (userName.value.length <3) {
         userName.setCustomValidity(`The lenght of User name (,${userName.value},) should. be at least 3`);
-        console.log(`Username, ${userName.value}, length: ${userName.value.length}`);
     }
     msgErrUNm.textContent = userName.validationMessage;
 }
@@ -57,13 +56,10 @@ function checkEmail(){
     userEmail.setCustomValidity ('');
     if (userEmail.validity.valueMissing) {
         userEmail.setCustomValidity('We need your email address to contact you!');
-        console.log(userEmail.validationMessage);
     } else if (userEmail.validity.typeMismatch || !userEmail.validity.valid) {
         userEmail.setCustomValidity('Please enter a valid email address, for example, name@example.com.');
-        console.log(userEmail.validationMessage);
     }
     msgErrEml.textContent = userEmail.validationMessage;
-    console.log(msgErrEml.textContent);
 }
 
 // check password matching (pw=userPW & pwc = msgErrCfmPW)
@@ -91,5 +87,5 @@ function checkPassword() {
     }
 
     msgErrCfmPW.textContent = userCfmPW.validationMessage;
-    // console.log("error msg,",  msgErrCfmPW.textContent);
+ 
 }
